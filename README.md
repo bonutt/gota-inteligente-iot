@@ -54,7 +54,7 @@ O kit ESP32 é **o coração da solução**: é ele que fica no campo, mede o so
 | Liga a bomba todo dia no mesmo horário, chova ou não | Mede a umidade do solo de verdade, a cada 2 segundos |
 | Rega e, duas horas depois, chove: água e energia jogadas fora | Consulta a previsão de chuva e **segura a bomba** quando vai chover |
 | Numa seca repentina, só percebe quando a planta murcha | Detecta o **estresse hídrico crítico** e irriga na hora, mesmo com chuva prevista |
-| Nenhum histórico | Envia cada leitura para o backend, que alimenta o app do agricultor e o painel regional |
+| Nenhum histórico | Gera a telemetria de cada leitura (JSON), no formato usado pelo app do agricultor e pelo painel regional |
 
 Ele também **funciona sem internet**, o que é comum no campo: as regras de decisão rodam no próprio ESP32 e, se o Wi-Fi cair, o kit continua decidindo com os sensores.
 
@@ -66,7 +66,7 @@ flowchart LR
     PREV[Previsão de chuva<br/>API Open-Meteo] -- Wi-Fi --> ESP
     ESP -- relé --> BOMBA[Bomba d'água]
     ESP --> LOCAL[LCD + LEDs<br/>para o agricultor]
-    ESP -- POST /api/v1/leituras --> API[Backend da solução]
+    ESP -- telemetria JSON --> API[Restante da solução]
     API --> APP[App do agricultor]
     API --> PAINEL[Painel regional]
     API --> IA[Modelo de IA]
@@ -95,7 +95,7 @@ flowchart LR
 
 ## 🧠 Lógica de decisão
 
-As regras são **as mesmas do backend da solução**, para o kit decidir igual com ou sem internet:
+As regras de decisão rodam **no próprio ESP32**, então o kit decide sozinho, com ou sem internet:
 
 | Situação | Decisão | Bomba | LED |
 |---|---|---|---|
@@ -109,14 +109,13 @@ As regras são **as mesmas do backend da solução**, para o kit decidir igual c
 
 **Índice de estresse hídrico (0 a 100):** 70% falta de água no solo + 20% calor + 10% ar seco. O LED vermelho acende a partir de 70.
 
-A cada ciclo o kit monta a telemetria em JSON, no mesmo formato que o backend recebe:
+A cada ciclo o kit mostra no monitor serial a telemetria da leitura em JSON, no formato usado pelo restante da solução:
 
 ```json
 {"codigo_dispositivo":"gota-001","umidade_solo":25.0,"temperatura_ar":31.0,
  "umidade_ar":45.0,"probabilidade_chuva":90,"bomba_ligada":false}
 ```
 
-Basta preencher `API_URL` no início do `sketch.ino` com o endereço do backend para o kit enviar as leituras e seguir a decisão central (do motor de regras ou do modelo de IA).
 
 ---
 

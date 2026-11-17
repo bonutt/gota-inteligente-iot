@@ -31,7 +31,7 @@ O enunciado pede que o vídeo: **(1)** apresente brevemente a solução do grupo
 > - **Embaixo** está o **relé**, que liga a bomba d'água. O LED azul representa a bomba funcionando.
 > - Essa **chave** escolhe entre a previsão simulada e a **previsão real da internet**, que o ESP32 busca pelo Wi-Fi na API Open-Meteo.
 >
-> A cada 2 segundos o ESP32 lê os sensores, cruza com a previsão de chuva e decide: **irrigar**, **não irrigar** ou **aguardar a chuva**. Ele também monta a leitura em JSON para mandar ao restante da solução, que alimenta o app e o painel. E se a internet cair, as mesmas regras rodam no próprio ESP32."
+> A cada 2 segundos o ESP32 lê os sensores, cruza com a previsão de chuva e decide: **irrigar**, **não irrigar** ou **aguardar a chuva**. Ele também gera cada leitura em JSON, no formato usado pelo resto da solução, o app e o painel. E as regras rodam no próprio ESP32, então ele funciona mesmo se a internet cair."
 
 ## 3. Demonstração (1:40 – 3:30)
 
@@ -53,7 +53,7 @@ O enunciado pede que o vídeo: **(1)** apresente brevemente a solução do grupo
 > "O agricultor sempre tem o controle: com o botão manual ele força **10 segundos de irrigação**."
 
 **Monitor serial (role o monitor embaixo)**
-> "Aqui no monitor serial dá para ver o **motivo de cada decisão** e a **telemetria em JSON**, que é o que vai para o backend da solução."
+> "Aqui no monitor serial dá para ver o **motivo de cada decisão** e a **telemetria em JSON** de cada leitura, no formato usado pelo resto da solução (app e painel)."
 
 **Cenário 6 — Previsão real (clique na chave de modo)**
 > "E com a chave ligada, o ESP32 consulta a **previsão real** da internet para a cidade do sítio. No monitor aparece '(Open-Meteo)' com a chance de chuva de verdade."
