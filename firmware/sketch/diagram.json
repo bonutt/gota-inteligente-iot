@@ -1,0 +1,475 @@
+{
+  "version": 1,
+  "author": "Gota Inteligente - FIAP GS 2026.2",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-slide-potentiometer",
+      "id": "solo",
+      "top": -380,
+      "left": -330,
+      "attrs": {
+        "travelLength": "30"
+      },
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-slide-potentiometer",
+      "id": "chuva",
+      "top": -250,
+      "left": -330,
+      "attrs": {
+        "travelLength": "30"
+      },
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": -90.65,
+      "left": -188.8,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "ledVermelho",
+      "top": -127,
+      "left": -248.8,
+      "attrs": {
+        "color": "red",
+        "label": "CRITICO"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": -33.65,
+      "left": -188.8,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "ledAmarelo",
+      "top": -70,
+      "left": -248.8,
+      "attrs": {
+        "color": "yellow",
+        "label": "ECONOMIA"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 23.35,
+      "left": -188.8,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "ledVerde",
+      "top": -13,
+      "left": -248.8,
+      "attrs": {
+        "color": "green",
+        "label": "OK"
+      }
+    },
+    {
+      "type": "wokwi-slide-switch",
+      "id": "modo",
+      "top": 175,
+      "left": -150,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd",
+      "top": -170,
+      "left": 200,
+      "attrs": {
+        "pins": "i2c"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn",
+      "top": 107,
+      "left": 190,
+      "attrs": {
+        "color": "blue",
+        "label": "MANUAL"
+      }
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht",
+      "top": 95,
+      "left": 300,
+      "attrs": {
+        "temperature": "31",
+        "humidity": "45"
+      }
+    },
+    {
+      "type": "wokwi-relay-module",
+      "id": "rele",
+      "top": 300,
+      "left": 120,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rBomba",
+      "top": 334.35,
+      "left": 300,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "ledBomba",
+      "top": 298,
+      "left": 380,
+      "attrs": {
+        "color": "blue",
+        "label": "BOMBA"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "esp:D34",
+      "solo:SIG",
+      "orange",
+      [
+        "h-25",
+        "v-386.1"
+      ]
+    ],
+    [
+      "esp:D35",
+      "chuva:SIG",
+      "cyan",
+      [
+        "h-37",
+        "v-265.9"
+      ]
+    ],
+    [
+      "esp:D32",
+      "r3:2",
+      "red",
+      [
+        "h-49",
+        "v-157.2"
+      ]
+    ],
+    [
+      "r3:1",
+      "ledVermelho:A",
+      "red",
+      []
+    ],
+    [
+      "esp:D33",
+      "r2:2",
+      "gold",
+      [
+        "h-61",
+        "v-109.7"
+      ]
+    ],
+    [
+      "r2:1",
+      "ledAmarelo:A",
+      "gold",
+      []
+    ],
+    [
+      "esp:D25",
+      "r1:2",
+      "green",
+      [
+        "h-73",
+        "v-62.3"
+      ]
+    ],
+    [
+      "r1:1",
+      "ledVerde:A",
+      "green",
+      []
+    ],
+    [
+      "solo:GND",
+      "chuva:GND",
+      "black",
+      [
+        "h-51",
+        "v130"
+      ]
+    ],
+    [
+      "chuva:GND",
+      "ledVermelho:C",
+      "black",
+      [
+        "h-51",
+        "v98"
+      ]
+    ],
+    [
+      "ledVermelho:C",
+      "ledAmarelo:C",
+      "black",
+      [
+        "h-146.2",
+        "v57"
+      ]
+    ],
+    [
+      "ledAmarelo:C",
+      "ledVerde:C",
+      "black",
+      [
+        "h-146.2",
+        "v57"
+      ]
+    ],
+    [
+      "ledVerde:C",
+      "modo:1",
+      "black",
+      [
+        "h-146.2",
+        "v211",
+        "h236.5"
+      ]
+    ],
+    [
+      "modo:1",
+      "esp:GND.2",
+      "black",
+      [
+        "v31",
+        "h123.5",
+        "v-91"
+      ]
+    ],
+    [
+      "esp:3V3",
+      "modo:3",
+      "red",
+      [
+        "h16.7",
+        "v101.5",
+        "h-242.5"
+      ]
+    ],
+    [
+      "modo:3",
+      "chuva:VCC",
+      "red",
+      [
+        "v51",
+        "h-275.5",
+        "v-670",
+        "h310",
+        "v227"
+      ]
+    ],
+    [
+      "chuva:VCC",
+      "solo:VCC",
+      "red",
+      [
+        "h33",
+        "v-130"
+      ]
+    ],
+    [
+      "esp:D14",
+      "modo:2",
+      "violet",
+      [
+        "h-55",
+        "v105",
+        "h-84"
+      ]
+    ],
+    [
+      "esp:D22",
+      "lcd:SCL",
+      "purple",
+      [
+        "h48.7",
+        "v-143.5"
+      ]
+    ],
+    [
+      "esp:D21",
+      "lcd:SDA",
+      "blue",
+      [
+        "h33.7",
+        "v-181.9"
+      ]
+    ],
+    [
+      "lcd:VCC",
+      "solo:VCC",
+      "red",
+      [
+        "h-44",
+        "v-281.5",
+        "h-250",
+        "v97"
+      ]
+    ],
+    [
+      "lcd:GND",
+      "solo:GND",
+      "black",
+      [
+        "h-32",
+        "v-287",
+        "h-552",
+        "v112"
+      ]
+    ],
+    [
+      "esp:D4",
+      "btn:1.l",
+      "blue",
+      []
+    ],
+    [
+      "btn:2.l",
+      "esp:GND.1",
+      "black",
+      [
+        "h-12",
+        "v10"
+      ]
+    ],
+    [
+      "esp:D15",
+      "dht:SDA",
+      "green",
+      [
+        "h58.7",
+        "v105.5",
+        "h164.5"
+      ]
+    ],
+    [
+      "dht:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "v20.1",
+        "h-187",
+        "v-71.5"
+      ]
+    ],
+    [
+      "dht:GND",
+      "btn:2.r",
+      "black",
+      [
+        "v20.1",
+        "h31.2",
+        "v-91"
+      ]
+    ],
+    [
+      "esp:D26",
+      "rele:IN",
+      "orange",
+      [
+        "h-85",
+        "v189",
+        "h180",
+        "v48.4"
+      ]
+    ],
+    [
+      "rele:VCC",
+      "esp:VIN",
+      "red",
+      [
+        "h-30",
+        "v-39",
+        "h-155",
+        "v-121.5"
+      ]
+    ],
+    [
+      "rele:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "h-10",
+        "v-180"
+      ]
+    ],
+    [
+      "rele:COM",
+      "esp:3V3",
+      "red",
+      [
+        "h36",
+        "v-171.5"
+      ]
+    ],
+    [
+      "rele:NO",
+      "rBomba:1",
+      "blue",
+      []
+    ],
+    [
+      "rBomba:2",
+      "ledBomba:A",
+      "blue",
+      []
+    ],
+    [
+      "ledBomba:C",
+      "rele:GND",
+      "black",
+      [
+        "v40",
+        "h-300",
+        "v-51"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

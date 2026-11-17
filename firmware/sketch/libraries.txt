@@ -1,0 +1,3 @@
+# Bibliotecas do projeto (o wokwi.com instala automaticamente)
+LiquidCrystal I2C
+DHT sensor library for ESPx
