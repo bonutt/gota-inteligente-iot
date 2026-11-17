@@ -24,7 +24,6 @@ const char* WIFI_SSID  = "Wokwi-GUEST";
 const char* WIFI_SENHA = "";
 const float LATITUDE   = -23.656;
 const float LONGITUDE  = -47.222;
-const char* CODIGO_DISPOSITIVO = "gota-001";
 
 // Regras de decisão (em %)
 const float UMIDADE_MINIMA  = 35.0;  // abaixo disso o solo está seco
@@ -187,8 +186,6 @@ void setup() {
   Serial.println();
   Serial.println("==============================================");
   Serial.println(" GOTA INTELIGENTE - kit IoT de irrigacao");
-  Serial.print(" Dispositivo: ");
-  Serial.println(CODIGO_DISPOSITIVO);
   Serial.println("==============================================");
   conectarWiFi();
 }
@@ -252,17 +249,10 @@ void loop() {
   digitalWrite(PINO_LED_VERM, indice >= 70 ? HIGH : LOW);
   mostrarNoLCD(solo, chuva, manual, acao, indice);
 
-  // Monitor serial: decisão, motivo e telemetria (JSON) da leitura
-  char json[220];
-  snprintf(json, sizeof(json),
-           "{\"codigo_dispositivo\":\"%s\",\"umidade_solo\":%.1f,\"temperatura_ar\":%.1f,"
-           "\"umidade_ar\":%.1f,\"probabilidade_chuva\":%.0f,\"bomba_ligada\":%s}",
-           CODIGO_DISPOSITIVO, solo, temp, umidAr, chuva, bomba ? "true" : "false");
+  // Monitor serial: leitura, decisão e motivo
   Serial.printf("Solo %3.0f%% | Ar %.1fC %2.0f%% | Chuva %3.0f%% (%s) | Estresse %d %s | %s -> bomba %s%s\n",
                 solo, temp, umidAr, chuva, fonte, indice, nivelEstresse(indice), nomeAcao(acao),
                 bomba ? "LIGADA" : "DESLIGADA", manual ? " (manual)" : "");
   Serial.print("  Motivo: ");
   Serial.println(motivo);
-  Serial.print("  Telemetria: ");
-  Serial.println(json);
 }

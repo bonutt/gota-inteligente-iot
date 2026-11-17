@@ -54,22 +54,19 @@ O kit ESP32 é **o coração da solução**: é ele que fica no campo, mede o so
 | Liga a bomba todo dia no mesmo horário, chova ou não | Mede a umidade do solo de verdade, a cada 2 segundos |
 | Rega e, duas horas depois, chove: água e energia jogadas fora | Consulta a previsão de chuva e **segura a bomba** quando vai chover |
 | Numa seca repentina, só percebe quando a planta murcha | Detecta o **estresse hídrico crítico** e irriga na hora, mesmo com chuva prevista |
-| Nenhum histórico | Gera a telemetria de cada leitura (JSON), no formato usado pelo app do agricultor e pelo painel regional |
+| Não sabe por que a planta sofreu | Mostra no LCD e nos LEDs o estado do solo e o **motivo** de cada decisão |
 
 Ele também **funciona sem internet**, o que é comum no campo: as regras de decisão rodam no próprio ESP32 e, se o Wi-Fi cair, o kit continua decidindo com os sensores.
 
-### Onde o kit entra na solução
+### Como o kit funciona
 
 ```mermaid
 flowchart LR
     SOLO[Sensor de solo<br/>+ DHT22] --> ESP[ESP32<br/>Gota Inteligente]
     PREV[Previsão de chuva<br/>API Open-Meteo] -- Wi-Fi --> ESP
+    BOTAO[Botão manual] --> ESP
     ESP -- relé --> BOMBA[Bomba d'água]
     ESP --> LOCAL[LCD + LEDs<br/>para o agricultor]
-    ESP -- telemetria JSON --> API[Restante da solução]
-    API --> APP[App do agricultor]
-    API --> PAINEL[Painel regional]
-    API --> IA[Modelo de IA]
 ```
 
 ---
@@ -109,13 +106,7 @@ As regras de decisão rodam **no próprio ESP32**, então o kit decide sozinho, 
 
 **Índice de estresse hídrico (0 a 100):** 70% falta de água no solo + 20% calor + 10% ar seco. O LED vermelho acende a partir de 70.
 
-A cada ciclo o kit mostra no monitor serial a telemetria da leitura em JSON, no formato usado pelo restante da solução:
-
-```json
-{"codigo_dispositivo":"gota-001","umidade_solo":25.0,"temperatura_ar":31.0,
- "umidade_ar":45.0,"probabilidade_chuva":90,"bomba_ligada":false}
-```
-
+A cada ciclo, o monitor serial mostra a leitura dos sensores, a decisão tomada e o motivo.
 
 ---
 
@@ -135,16 +126,14 @@ Saída real do monitor serial no cenário 2:
 ```
 Solo  25% | Ar 31.0C 45% | Chuva  90% (simulada) | Estresse 55 ATENCAO | AGUARDAR_CHUVA -> bomba DESLIGADA
   Motivo: Solo seco, mas vai chover. Bomba desligada para economizar agua e energia.
-  Telemetria: {"codigo_dispositivo":"gota-001","umidade_solo":25.0,"temperatura_ar":31.0,"umidade_ar":45.0,"probabilidade_chuva":90,"bomba_ligada":false}
 ```
-
-![Simulação rodando no wokwi.com](docs/imagens/simulacao-wokwi.png)
 
 ---
 
 ## ▶️ Como simular
 
-**No navegador (mais fácil):** abra o [projeto no Wokwi](https://wokwi.com/projects/480869188509119489) e clique em ▶ (Start). Depois:
+**No navegador (mais fácil):** abra o [projeto no Wokwi](https://wokwi.com/projects/480869188509119489) e clique em ▶ (Start).
+
 Nos dois controles deslizantes, **para a direita = 0%** e **para a esquerda = 100%**.
 1. Deixe o **solo** perto da direita (solo seco, ~25%) e arraste o **chuva** para a esquerda (90%): a bomba fica desligada e o LED amarelo acende.
 2. Arraste o **chuva** de volta para a direita: a bomba liga (LED azul e relé).
@@ -163,9 +152,7 @@ firmware/sketch/
 ├── diagram.json    # circuito do Wokwi
 ├── libraries.txt   # bibliotecas
 └── wokwi.toml      # configuração da simulação local
-docs/
-├── imagens/        # prints da montagem e da simulação
-└── roteiro-video.md
+docs/imagens/       # prints da montagem e da simulação
 integrantes.txt
 prompts.md          # registro do uso de IA (exigido pela GS)
 ```
