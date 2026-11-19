@@ -152,7 +152,7 @@ firmware/sketch/
 ├── diagram.json    # circuito do Wokwi
 ├── libraries.txt   # bibliotecas
 └── wokwi.toml      # configuração da simulação local
-docs/imagens/       # prints da montagem e da simulação
+docs/imagens/       # print da montagem do circuito
 integrantes.txt
 prompts.md          # registro do uso de IA (exigido pela GS)
 ```
